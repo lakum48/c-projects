@@ -1,0 +1,18 @@
+﻿<Window x:Class="lib.ManageGenresWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Manage Genres" Height="300" Width="400">
+    <Grid>
+        <DataGrid Name="GenresGrid" AutoGenerateColumns="False" Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10">
+            <Button Content="Add Genre" Click="AddGenre_Click" Margin="5" />
+            <Button Content="Edit Genre" Click="EditGenre_Click" Margin="5" />
+            <Button Content="Delete Genre" Click="DeleteGenre_Click" Margin="5" />
+        </StackPanel>
+    </Grid>
+</Window>

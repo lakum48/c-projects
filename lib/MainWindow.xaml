@@ -1,0 +1,23 @@
+﻿<Window x:Class="lib.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Library Management" Height="450" Width="800">
+    <Grid>
+        <DataGrid Name="BooksGrid" AutoGenerateColumns="False" Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
+                <DataGridTextColumn Header="Author" Binding="{Binding Author.FullName}" />
+                <DataGridTextColumn Header="Genre" Binding="{Binding Genre.Name}" />
+                <DataGridTextColumn Header="Publish Year" Binding="{Binding PublishYear}" />
+                <DataGridTextColumn Header="Quantity In Stock" Binding="{Binding QuantityInStock}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10">
+            <Button Content="Add Book" Click="AddBook_Click" Margin="5" />
+            <Button Content="Edit Book" Click="EditBook_Click" Margin="5" />
+            <Button Content="Delete Book" Click="DeleteBook_Click" Margin="5" />
+            <Button Content="Manage Authors" Click="ManageAuthors_Click" Margin="5" />
+            <Button Content="Manage Genres" Click="ManageGenres_Click" Margin="5" />
+        </StackPanel>
+    </Grid>
+</Window>
