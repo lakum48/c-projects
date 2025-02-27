@@ -11,5 +11,8 @@ namespace lib
         public DateTime BirthDate { get; set; }
         public string Country { get; set; }
         public ICollection<Book> Books { get; set; } = new List<Book>();
+
+        // Вычисляемое свойство для отображения полного имени
+        public string FullName => $"{FirstName} {LastName}";
     }
 }

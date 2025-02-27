@@ -22,9 +22,10 @@ namespace lib
             // Загружаем авторов и жанры
             Authors = new ObservableCollection<Author>(_context.Authors.ToList());
             Genres = new ObservableCollection<Genre>(_context.Genres.ToList());
-
-            AuthorComboBox.ItemsSource = Authors;
-            GenreComboBox.ItemsSource = Genres;
+            
+            LoadAuthors();
+            LoadGenres();
+            
 
             if (book != null)
             {
@@ -57,6 +58,17 @@ namespace lib
 
             DialogResult = true;
             Close();
+        }
+        private void LoadAuthors()
+        {
+            Authors = new ObservableCollection<Author>(_context.Authors.ToList());
+            AuthorComboBox.ItemsSource = Authors;
+        }
+
+        private void LoadGenres()
+        {
+            Genres = new ObservableCollection<Genre>(_context.Genres.ToList());
+            GenreComboBox.ItemsSource = Genres;
         }
     }
 }

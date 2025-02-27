@@ -9,14 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c7fa5c2-d566-46e7-92fd-4c84641eea19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib.sln" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/App.xaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/App.xaml.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/AssemblyInfo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/MainWindow.xaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/MainWindow.xaml.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/lib.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.lib/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.lib/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.lib/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.lib/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,14 +86,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740643441117</updated>
-      <workItem from="1740643444115" duration="8843000" />
+      <workItem from="1740643444115" duration="9811000" />
+      <workItem from="1740685666103" duration="373000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="UnityProjectConfiguration" hasMinimizedUI="null" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -111,6 +106,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
@@ -120,22 +116,22 @@
       <screen x="0" y="0" width="1536" height="816" />
     </state>
     <state x="535" y="210" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.816@0.0.1536.816" timestamp="1740644182028" />
-    <state width="1493" height="208" key="GridCell.Tab.0.bottom" timestamp="1740679935565">
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom" timestamp="1740681311411">
       <screen x="0" y="0" width="1536" height="816" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.bottom/0.0.1536.816@0.0.1536.816" timestamp="1740679935565" />
-    <state width="1493" height="208" key="GridCell.Tab.0.center" timestamp="1740679935565">
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom/0.0.1536.816@0.0.1536.816" timestamp="1740681311411" />
+    <state width="1493" height="208" key="GridCell.Tab.0.center" timestamp="1740681311411">
       <screen x="0" y="0" width="1536" height="816" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.center/0.0.1536.816@0.0.1536.816" timestamp="1740679935565" />
-    <state width="1493" height="208" key="GridCell.Tab.0.left" timestamp="1740679935565">
+    <state width="1493" height="208" key="GridCell.Tab.0.center/0.0.1536.816@0.0.1536.816" timestamp="1740681311411" />
+    <state width="1493" height="208" key="GridCell.Tab.0.left" timestamp="1740681311411">
       <screen x="0" y="0" width="1536" height="816" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.left/0.0.1536.816@0.0.1536.816" timestamp="1740679935565" />
-    <state width="1493" height="208" key="GridCell.Tab.0.right" timestamp="1740679935565">
+    <state width="1493" height="208" key="GridCell.Tab.0.left/0.0.1536.816@0.0.1536.816" timestamp="1740681311411" />
+    <state width="1493" height="208" key="GridCell.Tab.0.right" timestamp="1740681311411">
       <screen x="0" y="0" width="1536" height="816" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.right/0.0.1536.816@0.0.1536.816" timestamp="1740679935565" />
+    <state width="1493" height="208" key="GridCell.Tab.0.right/0.0.1536.816@0.0.1536.816" timestamp="1740681311411" />
     <state x="277" y="53" key="SettingsEditor" timestamp="1740643839026">
       <screen x="0" y="0" width="1536" height="816" />
     </state>
