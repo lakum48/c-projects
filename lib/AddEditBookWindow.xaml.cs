@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using Microsoft.EntityFrameworkCore;
 
 namespace lib
 {
@@ -20,12 +21,8 @@ namespace lib
             DataContext = Book;
 
             // Загружаем авторов и жанры
-            Authors = new ObservableCollection<Author>(_context.Authors.ToList());
-            Genres = new ObservableCollection<Genre>(_context.Genres.ToList());
-            
             LoadAuthors();
             LoadGenres();
-            
 
             if (book != null)
             {
@@ -56,9 +53,39 @@ namespace lib
             Book.ISBN = ISBNTextBox.Text;
             Book.QuantityInStock = int.Parse(QuantityInStockTextBox.Text);
 
-            DialogResult = true;
-            Close();
+            try
+            {
+                // Сохранение изменений в контексте
+                if (Book.Id == 0) // Это новая книга
+                {
+                    _context.Books.Add(Book);
+                }
+                else // Это редактирование существующей книги
+                {
+                    var existingBook = _context.Books.Include(b => b.Author).Include(b => b.Genre).FirstOrDefault(b => b.Id == Book.Id);
+                    if (existingBook != null)
+                    {
+                        existingBook.Title = Book.Title;
+                        existingBook.Author = Book.Author; // Убедитесь, что Author уже отслеживается
+                        existingBook.Genre = Book.Genre;   // Убедитесь, что Genre уже отслеживается
+                        existingBook.PublishYear = Book.PublishYear;
+                        existingBook.ISBN = Book.ISBN;
+                        existingBook.QuantityInStock = Book.QuantityInStock;
+                    }
+                }
+
+                _context.SaveChanges(); // Сохраняем изменения в базе данных
+                DialogResult = true;
+                Close();
+            }
+            catch (DbUpdateException ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении данных: {ex.InnerException?.Message}");
+            }
         }
+
+
+
         private void LoadAuthors()
         {
             Authors = new ObservableCollection<Author>(_context.Authors.ToList());

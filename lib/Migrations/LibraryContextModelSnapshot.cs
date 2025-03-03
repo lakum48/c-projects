@@ -49,7 +49,7 @@ namespace lib.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("authors", (string)null);
                 });
 
             modelBuilder.Entity("lib.Book", b =>
@@ -88,7 +88,7 @@ namespace lib.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("Books");
+                    b.ToTable("books", (string)null);
                 });
 
             modelBuilder.Entity("lib.Genre", b =>
@@ -110,7 +110,7 @@ namespace lib.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres");
+                    b.ToTable("genres", (string)null);
                 });
 
             modelBuilder.Entity("lib.Book", b =>

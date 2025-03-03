@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace lib
 {
@@ -10,8 +11,9 @@ namespace lib
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // Подключение к PostgreSQL
             optionsBuilder.UseNpgsql(
-                "Host=localhost;Port=5433;Database=library;Username=postgres;Password=danielDaniel1907!");
+                "Host=localhost;Port=5433;Database=librarydb;Username=postgres;Password=danielDaniel1907!;Include Error Detail=true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,57 +25,48 @@ namespace lib
 
             // Настройка связей
             modelBuilder.Entity<Book>()
-                .HasOne(b => b.Author)
-                .WithMany(a => a.Books)
-                .HasForeignKey(b => b.AuthorId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(b => b.Author) // Книга имеет одного автора
+                .WithMany(a => a.Books) // У автора может быть много книг
+                .HasForeignKey(b => b.AuthorId) // Внешний ключ AuthorId
+                .OnDelete(DeleteBehavior.Cascade); // Каскадное удаление
 
             modelBuilder.Entity<Book>()
-                .HasOne(b => b.Genre)
-                .WithMany(g => g.Books)
-                .HasForeignKey(b => b.GenreId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(b => b.Genre) // Книга относится к одному жанру
+                .WithMany(g => g.Books) // У жанра может быть много книг
+                .HasForeignKey(b => b.GenreId) // Внешний ключ GenreId
+                .OnDelete(DeleteBehavior.SetNull); // При удалении жанра GenreId = NULL
 
-            // Настройка полей с маленькой буквы
+            // Настройка полей для таблицы Book
             modelBuilder.Entity<Book>(entity =>
             {
-                entity.Property(b => b.Id).HasColumnName("id");
-                entity.Property(b => b.Title).HasColumnName("title").IsRequired().HasMaxLength(100);
-                entity.Property(b => b.ISBN).HasColumnName("isbn").IsRequired().HasMaxLength(20);
-                entity.Property(b => b.AuthorId).HasColumnName("authorid");
-                entity.Property(b => b.GenreId).HasColumnName("genreid");
+                entity.HasKey(b => b.Id); // Id — первичный ключ
+                entity.Property(b => b.Id).ValueGeneratedOnAdd(); // Автоматическая генерация
+                entity.Property(b => b.Title).IsRequired().HasMaxLength(255);
+                entity.Property(b => b.AuthorId).IsRequired();
+                entity.Property(b => b.PublishYear);
+                entity.Property(b => b.ISBN).IsRequired().HasMaxLength(20);
+                entity.Property(b => b.GenreId);
+                entity.Property(b => b.QuantityInStock).HasDefaultValue(0);
             });
 
+            // Настройка полей для таблицы Author
             modelBuilder.Entity<Author>(entity =>
             {
-                entity.Property(a => a.Id).HasColumnName("id");
-                entity.Property(a => a.FirstName).HasColumnName("firstname").IsRequired().HasMaxLength(50);
-                entity.Property(a => a.LastName).HasColumnName("lastname").IsRequired().HasMaxLength(50);
+                entity.HasKey(a => a.Id); // Id — первичный ключ
+                entity.Property(a => a.Id).ValueGeneratedOnAdd(); // Автоматическая генерация
+                entity.Property(a => a.FirstName).IsRequired().HasMaxLength(100);
+                entity.Property(a => a.LastName).IsRequired().HasMaxLength(100);
+                entity.Property(a => a.BirthDate).HasColumnType("date");
+                entity.Property(a => a.Country).HasMaxLength(100);
             });
-            modelBuilder.Entity<Book>(entity =>
-            {
-                entity.Property(b => b.PublishYear).HasColumnName("publishyear");
-            });
-            modelBuilder.Entity<Book>(entity =>
-            {
-                entity.Property(b => b.QuantityInStock).HasColumnName("quantityinstock");
-            });
-            modelBuilder.Entity<Author>(entity =>
-            {
-                entity.Property(b => b.Country).HasColumnName("country");
-            });
-            modelBuilder.Entity<Author>(entity =>
-            {
-                entity.Property(b => b.BirthDate).HasColumnName("birthdate");
-            });
+
+            // Настройка полей для таблицы Genre
             modelBuilder.Entity<Genre>(entity =>
             {
-                entity.Property(b => b.Description).HasColumnName("description");
-            });
-            modelBuilder.Entity<Genre>(entity =>
-            {
-                entity.Property(g => g.Id).HasColumnName("id");
-                entity.Property(g => g.Name).HasColumnName("name").IsRequired().HasMaxLength(50);
+                entity.HasKey(g => g.Id); // Id — первичный ключ
+                entity.Property(g => g.Id).ValueGeneratedOnAdd(); // Автоматическая генерация
+                entity.Property(g => g.Name).IsRequired().HasMaxLength(100);
+                entity.Property(g => g.Description).HasColumnType("text");
             });
         }
     }

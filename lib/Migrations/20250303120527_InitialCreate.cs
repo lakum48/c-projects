@@ -13,7 +13,7 @@ namespace lib.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Authors",
+                name: "authors",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -25,11 +25,11 @@ namespace lib.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Authors", x => x.Id);
+                    table.PrimaryKey("PK_authors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Genres",
+                name: "genres",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -39,11 +39,11 @@ namespace lib.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Genres", x => x.Id);
+                    table.PrimaryKey("PK_genres", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Books",
+                name: "books",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -57,29 +57,29 @@ namespace lib.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Books", x => x.Id);
+                    table.PrimaryKey("PK_books", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Books_Authors_AuthorId",
+                        name: "FK_books_authors_AuthorId",
                         column: x => x.AuthorId,
-                        principalTable: "Authors",
+                        principalTable: "authors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Books_Genres_GenreId",
+                        name: "FK_books_genres_GenreId",
                         column: x => x.GenreId,
-                        principalTable: "Genres",
+                        principalTable: "genres",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Books_AuthorId",
-                table: "Books",
+                name: "IX_books_AuthorId",
+                table: "books",
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Books_GenreId",
-                table: "Books",
+                name: "IX_books_GenreId",
+                table: "books",
                 column: "GenreId");
         }
 
@@ -87,13 +87,13 @@ namespace lib.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Books");
+                name: "books");
 
             migrationBuilder.DropTable(
-                name: "Authors");
+                name: "authors");
 
             migrationBuilder.DropTable(
-                name: "Genres");
+                name: "genres");
         }
     }
 }
