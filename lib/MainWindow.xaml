@@ -1,9 +1,34 @@
 ﻿<Window x:Class="lib.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:lib"
         Title="Library Management" Height="450" Width="800">
+    <Window.Resources>
+        <local:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+    </Window.Resources>
     <Grid>
-        <DataGrid Name="BooksGrid" AutoGenerateColumns="False" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Панель поиска и фильтрации -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <!-- TextBox с Placeholder -->
+            <Grid Width="200" Margin="5">
+                <TextBox x:Name="SearchTextBox" Background="Transparent" />
+                <TextBlock Text="Search by title..." Foreground="Gray" IsHitTestVisible="False"
+                           Visibility="{Binding Text, ElementName=SearchTextBox, Converter={StaticResource StringToVisibilityConverter}}" />
+            </Grid>
+
+            <ComboBox x:Name="AuthorFilterComboBox" Width="150" Margin="5" DisplayMemberPath="FullName" />
+            <ComboBox x:Name="GenreFilterComboBox" Width="150" Margin="5" DisplayMemberPath="Name" />
+            <Button Content="Search" Click="SearchButton_Click" Margin="5" />
+        </StackPanel>
+
+        <!-- Таблица с книгами -->
+        <DataGrid Name="BooksGrid" Grid.Row="1" AutoGenerateColumns="False" Margin="10">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
                 <DataGridTextColumn Header="Author" Binding="{Binding Author.FullName}" />
@@ -12,7 +37,9 @@
                 <DataGridTextColumn Header="Quantity In Stock" Binding="{Binding QuantityInStock}" />
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10">
+
+        <!-- Панель кнопок управления -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10">
             <Button Content="Add Book" Click="AddBook_Click" Margin="5" />
             <Button Content="Edit Book" Click="EditBook_Click" Margin="5" />
             <Button Content="Delete Book" Click="DeleteBook_Click" Margin="5" />
