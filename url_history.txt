@@ -1,0 +1,5 @@
+URL: https://yandex.ru/
+Ping: Ответ от yandex.ru: Success, время: 8 мс
+DNS: IP: 213.180.193.56 (Тип: Публичный (Public))
+
+
