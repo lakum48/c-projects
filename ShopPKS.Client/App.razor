@@ -1,0 +1,33 @@
+﻿@using ShopPKS.Client.Theme
+@using ShopPKS.Client.Services
+@inject ThemeService ThemeService
+
+<MudThemeProvider IsDarkMode="@ThemeService.IsDarkMode" Theme="CustomTheme.DefaultTheme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudPopoverProvider />
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <MudText Typo="Typo.h4" Class="mb-4">404 - Страница не найдена</MudText>
+            <MudText>Извините, запрошенная страница не существует.</MudText>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await ThemeService.InitializeAsync();
+        ThemeService.OnThemeChanged += async (isDark) =>
+        {
+            await InvokeAsync(StateHasChanged);
+        };
+    }
+}

@@ -1,0 +1,159 @@
+@page "/products"
+@using ShopPKS.Client.Models
+@using ShopPKS.Client.Services
+@inject ProductService ProductService
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@implements IDisposable
+
+<PageTitle>Товары</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudText Typo="Typo.h3" Class="mb-4">Список товаров</MudText>
+
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="OpenCreateDialog" Class="mb-4">
+        Добавить товар
+    </MudButton>
+
+    @if (products == null)
+    {
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+    }
+    else
+    {
+        <MudTable Items="@products" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading">
+            <HeaderContent>
+                <MudTh>Название</MudTh>
+                <MudTh>Цена</MudTh>
+                <MudTh>Количество</MudTh>
+                <MudTh>Действия</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Название">@context.Name</MudTd>
+                <MudTd DataLabel="Цена">@context.Price.ToString("C")</MudTd>
+                <MudTd DataLabel="Количество">@context.StockQuantity</MudTd>
+                <MudTd>
+                    <MudButton Color="Color.Primary" Variant="Variant.Text" OnClick="@(() => OpenEditDialog(context))">
+                        Изменить
+                    </MudButton>
+                    <MudButton Color="Color.Error" Variant="Variant.Text" OnClick="@(() => OpenDeleteDialog(context))">
+                        Удалить
+                    </MudButton>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+</MudContainer>
+
+@code {
+    private List<Product>? products;
+    private bool _loading;
+    private System.Threading.Timer? _timer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProducts();
+        StartPeriodicRefresh();
+    }
+
+    private void StartPeriodicRefresh()
+    {
+        _timer = new System.Threading.Timer(async _ =>
+        {
+            await LoadProducts();
+            await InvokeAsync(StateHasChanged);
+        }, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+    }
+
+    private async Task LoadProducts()
+    {
+        try
+        {
+            _loading = true;
+            StateHasChanged();
+            products = await ProductService.GetProductsAsync();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка при загрузке товаров: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _loading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task OpenCreateDialog()
+    {
+        try
+        {
+            var dialog = await DialogService.ShowAsync<ProductDialog>("Добавить товар");
+            var result = await dialog.Result;
+
+            if (!result.Canceled)
+            {
+                await LoadProducts();
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка при создании товара: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task OpenEditDialog(Product product)
+    {
+        try
+        {
+            var parameters = new DialogParameters
+            {
+                ["Product"] = product
+            };
+
+            var dialog = await DialogService.ShowAsync<ProductDialog>("Изменить товар", parameters);
+            var result = await dialog.Result;
+
+            if (!result.Canceled)
+            {
+                await LoadProducts();
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка при редактировании товара: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task OpenDeleteDialog(Product product)
+    {
+        if (product == null) return;
+
+        try
+        {
+            var parameters = new DialogParameters
+            {
+                ["ContentText"] = $"Вы уверены, что хотите удалить товар '{product.Name}'?"
+            };
+
+            var dialog = await DialogService.ShowAsync<DeleteConfirmationDialog>("Удалить товар", parameters);
+            var result = await dialog.Result;
+
+            if (!result.Canceled)
+            {
+                await ProductService.DeleteProductAsync(product.Id);
+                Snackbar.Add("Товар успешно удален", Severity.Success);
+                await LoadProducts();
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка при удалении товара: {ex.Message}", Severity.Error);
+        }
+    }
+} 

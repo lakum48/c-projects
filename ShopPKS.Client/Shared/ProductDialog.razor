@@ -1,0 +1,104 @@
+@using ShopPKS.Client.Models
+@using ShopPKS.Client.Services
+@inject ProductService ProductService
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">@(Product == null ? "Добавление товара" : "Редактирование товара")</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudContainer Style="max-height: 500px; overflow-y: scroll">
+            <MudForm @ref="form" Model="@product" @bind-IsValid="@_isValid">
+                <MudTextField @bind-Value="product.Name" Label="Название" Required="true" RequiredError="Название обязательно" />
+                <MudNumericField T="decimal" @bind-Value="product.Price" Label="Цена" Required="true" RequiredError="Цена обязательна" Min="0.01m" />
+                <MudTextField @bind-Value="product.Description" Label="Описание" Lines="3" />
+                <MudNumericField T="int" @bind-Value="product.StockQuantity" Label="Количество" Required="true" RequiredError="Количество обязательно" Min="0" />
+            </MudForm>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel" Disabled="@_processing">Отмена</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit" Variant="Variant.Filled" Disabled="@(_processing || !_isValid)">
+            @if (_processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">Сохранение...</MudText>
+            }
+            else
+            {
+                @("Сохранить")
+            }
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+    [Parameter] public Product? Product { get; set; }
+
+    private MudForm? form;
+    private Product product = new();
+    private bool _processing;
+    private bool _isValid;
+
+    protected override void OnInitialized()
+    {
+        if (Product != null)
+        {
+            product = new Product
+            {
+                Id = Product.Id,
+                Name = Product.Name,
+                Price = Product.Price,
+                Description = Product.Description ?? string.Empty,
+                StockQuantity = Product.StockQuantity
+            };
+        }
+    }
+
+    private async Task Submit()
+    {
+        if (form == null || MudDialog == null) return;
+
+        try
+        {
+            _processing = true;
+            StateHasChanged();
+
+            await form.Validate();
+            if (form.IsValid)
+            {
+                if (Product == null)
+                {
+                    await ProductService.CreateProductAsync(product);
+                    Snackbar.Add("Товар успешно добавлен", Severity.Success);
+                }
+                else
+                {
+                    await ProductService.UpdateProductAsync(product.Id, product);
+                    Snackbar.Add("Товар успешно обновлен", Severity.Success);
+                }
+
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка при сохранении товара: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _processing = false;
+            StateHasChanged();
+        }
+    }
+
+    private void Cancel()
+    {
+        if (MudDialog != null)
+        {
+            MudDialog.Cancel();
+        }
+    }
+} 

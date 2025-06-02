@@ -1,0 +1,20 @@
+@page "/"
+
+<PageTitle>Главная - Магазин PKS</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
+    <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Добро пожаловать в Магазин PKS</MudText>
+    <MudText Typo="Typo.h5" Align="Align.Center" Class="mb-8">Система управления товарами интернет-магазина</MudText>
+    
+    <MudGrid Justify="Justify.Center" Spacing="6">
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Elevation="2" Class="pa-4">
+                <MudText Typo="Typo.h6" GutterBottom="true">Управление товарами</MudText>
+                <MudText>Добавляйте, редактируйте и удаляйте товары в вашем магазине.</MudText>
+                <MudButton Href="/products" Color="Color.Primary" Variant="Variant.Filled" FullWidth="true" Class="mt-4">
+                    Перейти к товарам
+                </MudButton>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer> 

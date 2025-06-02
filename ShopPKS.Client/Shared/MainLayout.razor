@@ -1,0 +1,37 @@
+@inherits LayoutComponentBase
+@using ShopPKS.Client.Services
+@inject ThemeService ThemeService
+
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudText Typo="Typo.h5" Class="ml-3">Магазин PKS</MudText>
+        <MudSpacer />
+        <MudToggleIconButton
+            Toggled="@ThemeService.IsDarkMode"
+            ToggledChanged="@((isDark) => ThemeService.IsDarkMode = isDark)"
+            Icon="@Icons.Material.Filled.LightMode"
+            Color="@Color.Warning"
+            Title="Светлая тема"
+            ToggledIcon="@Icons.Material.Filled.DarkMode"
+            ToggledColor="@Color.Info"
+            ToggledTitle="Темная тема" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Large" Class="my-4">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool _drawerOpen = true;
+
+    private void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+} 

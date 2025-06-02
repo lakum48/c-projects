@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "ccRfl9cSmegAoqjsiZaCOWUXRML5ywNTaCb4lTqcpos=",
+  "Source": "ShopPKS.Server",
+  "BasePath": "_content/ShopPKS.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
